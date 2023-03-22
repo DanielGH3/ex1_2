@@ -15,6 +15,8 @@ struct AdptArray_
 
 PAdptArray CreateAdptArray(COPY_FUNC copy_f, DEL_FUNC del_f, PRINT_FUNC print_f){
     PAdptArray array = (PAdptArray)malloc(sizeof(struct AdptArray_));
+    if(array == NULL) return array;
+
     array->elements = (PElement*)malloc(sizeof(PElement));
     array->capacity = 0;
     array->copy_func = copy_f;
@@ -24,6 +26,8 @@ PAdptArray CreateAdptArray(COPY_FUNC copy_f, DEL_FUNC del_f, PRINT_FUNC print_f)
 }
 
 void DeleteAdptArray(PAdptArray array){
+    if(array == NULL) return;
+
     for(int i = 0; i < array->capacity; i++){
         if(array->elements[i] != NULL){
             array->del_func(array->elements[i]);
@@ -34,6 +38,8 @@ void DeleteAdptArray(PAdptArray array){
 }
 
 Result SetAdptArrayAt(PAdptArray array, int pos, PElement e){
+    if(array == NULL) return FAIL;
+
     if(array->capacity <= pos){
         int last_cap = array->capacity;
         array->elements = (PElement*)realloc(array->elements, sizeof(PElement) * (pos + 1));
@@ -48,6 +54,7 @@ Result SetAdptArrayAt(PAdptArray array, int pos, PElement e){
 }
 
 PElement GetAdptArrayAt(PAdptArray array, int pos){
+    if(array == NULL) return NULL;
     if(array->capacity <= pos){
         return NULL;
     }
@@ -58,10 +65,12 @@ PElement GetAdptArrayAt(PAdptArray array, int pos){
 }
 
 int GetAdptArraySize(PAdptArray array){
+    if(array == NULL) return -1;
     return array->capacity;
 }
 
 void PrintDB(PAdptArray array){
+    if(array == NULL) return;
     for(int i = 0; i < array->capacity; i++){
         if(array->elements[i] != NULL){
             array->print_func(array->elements[i]);
