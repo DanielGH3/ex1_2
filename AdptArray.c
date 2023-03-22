@@ -18,6 +18,11 @@ PAdptArray CreateAdptArray(COPY_FUNC copy_f, DEL_FUNC del_f, PRINT_FUNC print_f)
     if(array == NULL) return array;
 
     array->elements = (PElement*)malloc(sizeof(PElement));
+    if(array->elements == NULL){
+        free(array);
+        return NULL;
+    }
+
     array->capacity = 0;
     array->copy_func = copy_f;
     array->del_func = del_f;
